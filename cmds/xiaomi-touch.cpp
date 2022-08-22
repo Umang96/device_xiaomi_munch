@@ -38,10 +38,12 @@ int main(int argc, char **argv) {
     }
     int mode = atoi(argv[1]);
     int enabled = atoi(argv[2]);
+    fprintf(stderr, "Args %s %d %d\n", argv[0], mode, enabled);
     if (mode < 0 || mode > 20) return -1;
     if (enabled != 0 && enabled != 1) return -1;
     int fd = open(TOUCH_DEV_PATH, O_RDWR);
-    int arg[2] = { mode, enabled};
-    ioctl(fd, TOUCH_IOC_SETMODE, &arg);
+    int arg[2] = {mode, enabled};
+    int res = ioctl(fd, TOUCH_IOC_SETMODE, &arg);
+    fprintf(stderr, "ioctl done, result = %d\n", res);
     close(fd);
 }
